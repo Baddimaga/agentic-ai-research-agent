@@ -24,7 +24,7 @@ from typing import List
 import json, ast
 
 
-def planner_agent(topic: str, model: str = "openai:o4-mini") -> List[str]:
+def planner_agent(topic: str, model: str = "openai:gpt-5-nano") -> List[str]:
     prompt = f"""
 You are a planning agent responsible for organizing a research workflow using multiple intelligent agents.
 

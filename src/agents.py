@@ -248,7 +248,7 @@ INTERNAL CHECKLIST (DO NOT INCLUDE IN OUTPUT):
 
 def editor_agent(
     prompt: str,
-    model: str = "openai:gpt-4.1-mini",
+    model: str = "openai:gpt-5-nano",
     target_min_words: int = 2400,
 ):
     print("==================================")

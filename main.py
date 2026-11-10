@@ -22,12 +22,16 @@ import html, textwrap
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Fix for Heroku's postgres:// URL format
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL not set")
+
+# Normalize PostgreSQL URLs and select the installed psycopg2 driver.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+if DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://", "postgresql+psycopg2://", 1
+    )
 
 
 # === DB setup ===
@@ -73,7 +77,7 @@ class PromptRequest(BaseModel):
 
 @app.get("/", response_class=HTMLResponse)
 def read_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 
 @app.get("/api", response_class=JSONResponse)
